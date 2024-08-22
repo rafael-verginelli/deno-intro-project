@@ -7,9 +7,16 @@
 // With Oak (Middleware package):
 import { Application } from "https://deno.land/x/oak@v16.1.0/mod.ts";
 
+import todoRoutes from './routes/todos.ts';
+
 const app = new Application();
-app.use((ctx) => {
-    ctx.response.body = "Hello world!";
+
+app.use(async (ctx, next) => {
+    ctx.response.body = "Some other middleware!";
+    await next();
 });
+
+app.use(todoRoutes.routes());
+app.use(todoRoutes.allowedMethods());
 
 await app.listen({ port: 3000 });
