@@ -1,8 +1,15 @@
-const text = "This is a test that should be saved in a file with DENO!";
+// Manual work for starting up a server:
+// function handler(_req: Request): Response {
+//     return new Response("Hello World!");
+// }
+// Deno.serve({ port: 3000, hostname: "localhost" }, handler);
 
-const encoder = new TextEncoder();
-const data = encoder.encode(text);
+// With Oak (Middleware package):
+import { Application } from "https://deno.land/x/oak@v16.1.0/mod.ts";
 
-Deno.writeFile("message.txt", data).then(() => {
-    console.log("Wrote file message.txt!");
+const app = new Application();
+app.use((ctx) => {
+    ctx.response.body = "Hello world!";
 });
+
+await app.listen({ port: 3000 });
